@@ -30,7 +30,7 @@ function handleClose() {
         return;
     }
 
-    view.emit('discord:FadeToBlack'); // Probably not going to be used. idk
+    view.emit('discord:endWindow'); // Probably not going to be used. idk
     view.destroy();
     view = null;
 
