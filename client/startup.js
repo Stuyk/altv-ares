@@ -14,8 +14,10 @@ async function handleView(oAuthUrl) {
     if (!view) {
         view = new alt.WebView(url, false);
         view.on('discord:OpenURL', handleOpenURL);
+        
     }
 
+    view.focus();
     alt.showCursor(true);
 }
 
