@@ -1,3 +1,5 @@
+![](https://thumbs.gfycat.com/OrangePoliticalChicken-size_restricted.gif)
+
 # alt:V Ares - The Easiest Discord Authentication Service
 
 [❤️ Become a Sponsor of my Open Source Work](https://github.com/sponsors/Stuyk/)
