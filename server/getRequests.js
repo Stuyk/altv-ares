@@ -10,7 +10,7 @@ let ip;
 /**
  * Returns the Azure Public Key from the Azure Web App.
  * @export
- * @return {string} 
+ * @return {string}
  */
 export async function fetchAzureKey() {
     let azurePubKey;
@@ -30,7 +30,7 @@ export async function fetchAzureKey() {
 /**
  * Get the Public IP of your server.
  * @export
- * @return {*} 
+ * @return {*}
  */
 export async function fetchPublicIP() {
     if (ip) {
@@ -51,7 +51,7 @@ export async function fetchPublicIP() {
 /**
  * Gets the Discord oAuth2 URL.
  * @export
- * @return {*} 
+ * @return {*}
  */
 export function getDiscordOAuth2URL() {
     return url;

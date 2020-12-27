@@ -1,7 +1,7 @@
 /// <reference types="@altv/types-server" />
 import alt from 'alt-server';
 import sjcl from 'sjcl';
-import ecc from 'elliptic'
+import ecc from 'elliptic';
 import { fetchAzureKey } from './getRequests';
 
 const elliptic = new ecc.ec('curve25519');
@@ -36,7 +36,7 @@ export function sha256Random(data) {
  * Generate and private and public key.
  * Stores the data in memory for additional usage.
  * @export
- * @return {string} 
+ * @return {string}
  */
 export async function getPublicKey() {
     if (!privateKey) {
@@ -51,7 +51,7 @@ export async function getPublicKey() {
 
     if (!azurePubKey) {
         azurePubKey = await fetchAzureKey();
-        alt.log(`[Auth] Fetched Azure Public Key`)
+        alt.log(`[Auth] Fetched Azure Public Key`);
     }
 
     if (!secretKey) {
@@ -78,7 +78,7 @@ export function getPrivateKey() {
  * Encrypts data based on the shared key.
  * @export
  * @param {string} jsonData
- * @return {Promise<string>} 
+ * @return {Promise<string>}
  */
 export async function encryptData(jsonData) {
     const sharedSecret = await getSharedSecret();
@@ -96,7 +96,7 @@ export async function encryptData(jsonData) {
  * Decrypts data based on the shared key.
  * @export
  * @param {string} jsonData
- * @return {Promise<string>} 
+ * @return {Promise<string>}
  */
 export async function decryptData(jsonData) {
     const sharedSecret = await getSharedSecret();
@@ -112,7 +112,7 @@ export async function decryptData(jsonData) {
 /**
  * Returns a shared secret for encryption between the Azure Server and Ourselves.
  * @export
- * @return {Promise<string>} 
+ * @return {Promise<string>}
  */
 export async function getSharedSecret() {
     try {
@@ -121,8 +121,8 @@ export async function getSharedSecret() {
         const sharedKey = ecPrivateKey.derive(ecPublicKey.getPublic()).toString(16);
         return sharedKey;
     } catch (err) {
-      console.error(err);
-      return false
+        console.error(err);
+        return false;
     }
 }
 
@@ -138,4 +138,3 @@ export async function getAzureKey() {
 
     return azurePubKey;
 }
-  

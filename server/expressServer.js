@@ -28,7 +28,7 @@ async function handleAuthenticate(req, res) {
     });
 
     if (!player || !player.valid) {
-        res.json({ status: false, message: 'Failed to find matching player.'});
+        res.json({ status: false, message: 'Failed to find matching player.' });
         return;
     }
 

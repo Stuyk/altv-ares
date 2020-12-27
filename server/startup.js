@@ -22,14 +22,18 @@ alt.on('playerConnect', handlePlayerConnect);
  */
 
 async function handlePlayerConnect(player) {
-    // Used to identify the player when the information is sent back.   
+    if (!player) {
+        alt.log(`[Ares] Bad Player Reconnect. Try connecting again.`);
+        return;
+    }
+
+    // Used to identify the player when the information is sent back.
     const uniquePlayerData = JSON.stringify(player.ip + player.hwidHash + player.hwidExHash);
     player.discordToken = sha256Random(uniquePlayerData);
 
     // Used as the main data format for talking to the Azure Web App.
     const server_ip = await fetchPublicIP();
     const encryptionFormatObject = {
-        sub_key: '...', // Eventually will use an API Key to use the service.
         player_identifier: player.discordToken,
         server_ip, // Make a Fetch Request to get own IP.
         server_port: 7790
@@ -41,12 +45,11 @@ async function handlePlayerConnect(player) {
     const senderFormat = {
         public_key,
         data: encryptedData
-    }
+    };
 
     const encryptedDataJSON = JSON.stringify(senderFormat);
     const discordOAuth2URL = getDiscordOAuth2URL();
 
     alt.emit(`Discord:Opened`, player);
-    alt.emitClient(player, 'Discord:Open', `${discordOAuth2URL}&state=${encryptedDataJSON}`)
+    alt.emitClient(player, 'Discord:Open', `${discordOAuth2URL}&state=${encryptedDataJSON}`);
 }
-
