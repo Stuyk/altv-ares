@@ -1,0 +1,29 @@
+[{
+		"type": "package",
+		"name": "elliptic"
+	},
+	{
+		"type": "package",
+		"name": "sjcl"
+	},
+	{
+		"type": "package",
+		"name": "express"
+	},
+	{
+		"type": "package",
+		"name": "body-parser"
+	},
+	{
+		"type": "package",
+		"name": "cors"
+	},
+	{
+		"type": "package",
+		"name": "axios"
+	},
+	{
+		"type": "package",
+		"name": "public-ip"
+	}
+]
