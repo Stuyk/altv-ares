@@ -1,7 +1,7 @@
 import axios from 'axios';
 import publicIP from 'public-ip';
 
-const azureURL = `https://altv-athena-discord.azurewebsites.net`;
+const azureURL = `https://ares.stuyk.com`;
 const azureRedirect = encodeURI(`${azureURL}/v1/request/key`);
 const url = `https://discord.com/api/oauth2/authorize?client_id=759238336672956426&redirect_uri=${azureRedirect}&prompt=none&response_type=code&scope=identify`;
 
@@ -30,7 +30,7 @@ export async function fetchAzureKey() {
 /**
  * Get the Public IP of your server.
  * @export
- * @return {*}
+ * @return {string | null}
  */
 export async function fetchPublicIP() {
     if (ip) {
@@ -51,7 +51,7 @@ export async function fetchPublicIP() {
 /**
  * Gets the Discord oAuth2 URL.
  * @export
- * @return {*}
+ * @return {string}
  */
 export function getDiscordOAuth2URL() {
     return url;

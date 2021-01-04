@@ -22,8 +22,7 @@ alt.on('playerConnect', handlePlayerConnect);
  */
 
 async function handlePlayerConnect(player) {
-    if (!player) {
-        alt.log(`[Ares] Bad Player Reconnect. Try connecting again.`);
+    if (!player || !player.valid) {
         return;
     }
 
