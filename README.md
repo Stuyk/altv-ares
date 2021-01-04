@@ -1,6 +1,6 @@
 ![](https://thumbs.gfycat.com/OrangePoliticalChicken-size_restricted.gif)
 
-# alt:V Ares - The Easiest Discord Authentication Service
+# alt:V Ares - 1.0.1
 
 [❤️ Become a Sponsor of my Open Source Work](https://github.com/sponsors/Stuyk/)
 
@@ -105,3 +105,11 @@ alt.on('Discord:Login', (player, discordInfo) => {
 The player's WebView will **automatically be closed** when the discord login is successful.
 
 The **Discord:Login** event is your **success** event.
+
+# Changelog
+
+```diff
+January 3, 2020
++ Updated Ares Endpoint (Deprecated Old Server Provider)
++ Moved to auto-updating URL under https://ares.stuyk.com/
+```
