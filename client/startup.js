@@ -4,16 +4,21 @@ import * as alt from 'alt-client';
 const url = `https://stuyk.github.io/altv-ares-view/`;
 let view;
 let discordURI;
+let isPortless = false;
 
 alt.onServer(`Discord:Open`, handleView);
 alt.onServer(`Discord:Close`, handleClose);
 
-async function handleView(oAuthUrl) {
+async function handleView(oAuthUrl, isRunningPortless = false) {
+    isPortless = isRunningPortless;
     discordURI = oAuthUrl;
+
+    alt.log(isPortless);
 
     if (!view) {
         view = new alt.WebView(url, false);
         view.on('discord:OpenURL', handleOpenURL);
+        view.on('discord:FinishAuth', handleFinishAuth);
     }
 
     view.focus();
@@ -21,7 +26,11 @@ async function handleView(oAuthUrl) {
 }
 
 function handleOpenURL() {
-    view.emit('discord:OpenURL', discordURI);
+    view.emit('discord:OpenURL', discordURI, isPortless);
+}
+
+function handleFinishAuth() {
+    alt.emitServer('discord:FinishAuth');
 }
 
 function handleClose() {

@@ -45,10 +45,22 @@ Add this resource to your `server.cfg`.
 ## Install these Dependencies
 
 ```sh
-npm install elliptic sjcl express body-parser cors axios public-ip
+npm install elliptic sjcl express body-parser cors axios public-ip dotenv
 ```
 
-## Open Port 7790
+# Additional Configuration Necessary
+
+Pick one of the following options bellow.
+
+## Not Opening Additional Ports
+
+Create a `.env` file and add the following inside:
+
+```
+PORTLESS=true
+```
+
+## Opening Port 7790
 
 Depending on whatever system you are on you should open port 7790.
 
@@ -109,6 +121,11 @@ The **Discord:Login** event is your **success** event.
 # Changelog
 
 ```diff
+January 12, 2020
++ Added New Portless Discord Authentication
++ Added New Portless Parameters
++ Added 'dotenv' as a dependency
+
 January 3, 2020
 + Updated Ares Endpoint (Deprecated Old Server Provider)
 + Moved to auto-updating URL under https://ares.stuyk.com/

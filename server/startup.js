@@ -1,10 +1,19 @@
 /// <reference types="@altv/types-server" />
 import alt from 'alt-server';
+import dotenv from 'dotenv';
+
 import { encryptData, getPublicKey, sha256Random } from './encryption';
 import { fetchPublicIP, getDiscordOAuth2URL } from './getRequests';
 import './expressServer';
 
+dotenv.config();
+
 alt.on('playerConnect', handlePlayerConnect);
+
+if (process.env.PORTLESS) {
+    alt.log(`[Ares] Running in Portless Authentication Mode.`);
+    alt.log(`[Ares] Requires users to click one additional button after authentication.`);
+}
 
 /**
  * How does this work?
@@ -35,7 +44,8 @@ async function handlePlayerConnect(player) {
     const encryptionFormatObject = {
         player_identifier: player.discordToken,
         server_ip, // Make a Fetch Request to get own IP.
-        server_port: 7790
+        server_port: 7790,
+        no_ports: process.env.PORTLESS ? true : false
     };
 
     // Setup Parseable Format for Azure
@@ -50,5 +60,10 @@ async function handlePlayerConnect(player) {
     const discordOAuth2URL = getDiscordOAuth2URL();
 
     alt.emit(`Discord:Opened`, player);
-    alt.emitClient(player, 'Discord:Open', `${discordOAuth2URL}&state=${encryptedDataJSON}`);
+    alt.emitClient(
+        player,
+        'Discord:Open',
+        `${discordOAuth2URL}&state=${encryptedDataJSON}`,
+        encryptionFormatObject.no_ports
+    );
 }

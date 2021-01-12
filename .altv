@@ -25,5 +25,9 @@
 	{
 		"type": "package",
 		"name": "public-ip"
+	},
+	{
+		"type": "package",
+		"name": "dotenv"
 	}
 ]
