@@ -57,8 +57,6 @@ if (!process.env.PORTLESS) {
             return;
         }
 
-        console.log('finishing auth');
-
         const public_key = await getPublicKey();
         const azureURL = await getAzureURL();
 
