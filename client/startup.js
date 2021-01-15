@@ -13,8 +13,6 @@ async function handleView(oAuthUrl, isRunningPortless = false) {
     isPortless = isRunningPortless;
     discordURI = oAuthUrl;
 
-    alt.log(isPortless);
-
     if (!view) {
         view = new alt.WebView(url, false);
         view.on('discord:OpenURL', handleOpenURL);
