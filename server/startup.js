@@ -3,7 +3,7 @@ import alt from 'alt-server';
 import dotenv from 'dotenv';
 
 import { encryptData, getPublicKey, sha256Random } from './encryption';
-import { fetchPublicIP, getDiscordOAuth2URL } from './getRequests';
+import { getDiscordOAuth2URL } from './getRequests';
 import './expressServer';
 
 dotenv.config();
@@ -41,10 +41,7 @@ async function handlePlayerConnect(player) {
 
     // Used as the main data format for talking to the Azure Web App.
     const encryptionFormatObject = {
-        player_identifier: player.discordToken,
-        server_ip: process.env['PORTLESS'] ? null : await fetchPublicIP(), // Make a Fetch Request to get own IP.
-        server_port: 7790,
-        no_ports: process.env.PORTLESS ? true : false
+        player_identifier: player.discordToken
     };
 
     // Setup Parseable Format for Azure
@@ -59,10 +56,5 @@ async function handlePlayerConnect(player) {
     const discordOAuth2URL = getDiscordOAuth2URL();
 
     alt.emit(`Discord:Opened`, player);
-    alt.emitClient(
-        player,
-        'Discord:Open',
-        `${discordOAuth2URL}&state=${encryptedDataJSON}`,
-        encryptionFormatObject.no_ports
-    );
+    alt.emitClient(player, 'Discord:Open', `${discordOAuth2URL}&state=${encryptedDataJSON}`);
 }

@@ -1,92 +1,52 @@
 import * as alt from 'alt-server';
-import express from 'express';
-import cors from 'cors';
-import bodyParser from 'body-parser';
-import { decryptData, getAzureKey, getPublicKey } from './encryption';
+import { decryptData, getPublicKey } from './encryption';
+import { getAzureURL } from './getRequests';
 import dotenv from 'dotenv';
 import axios from 'axios';
-import { getAzureURL } from './getRequests';
 
 dotenv.config();
 
-if (!process.env.PORTLESS) {
-    const targetPort = process.env.PORT ? process.env.PORT : 7790;
+alt.onClient('discord:FinishAuth', handleFinishAuth);
 
-    const app = express();
-
-    app.use(cors());
-    app.use(bodyParser.urlencoded({ extended: false }));
-    app.use(bodyParser.json());
-    app.post('/authenticate', handleAuthenticate);
-
-    async function handleAuthenticate(req, res) {
-        if (!req.body || !req.body.data) {
-            res.json({ status: false });
-            return;
-        }
-
-        const queryData = JSON.parse(req.body.data); // Need to try and catch this garbage;
-        const discordDataJSON = await decryptData(queryData);
-        const discordData = JSON.parse(discordDataJSON);
-
-        // id, username, avatar, discriminator, public_flags, flags, locale, mfa_enabled
-        const player = alt.Player.all.find((player) => {
-            const playerExt = player;
-            return playerExt.discordToken === discordData.player_identifier;
-        });
-
-        if (!player || !player.valid) {
-            res.json({ status: false, message: 'Failed to find matching player.' });
-            return;
-        }
-
-        alt.emit('Discord:Login', player, discordData);
-        alt.emitClient(player, `Discord:Close`);
-        res.json({ status: true });
+async function handleFinishAuth(player) {
+    const player_identifier = player.discordToken;
+    if (!player_identifier) {
+        return;
     }
 
-    app.listen(targetPort, () => {
-        alt.log(`Express Server Started on 7790. Open TCP/UDP Ports for 7790.`);
-    });
-} else {
-    alt.onClient('discord:FinishAuth', handleFinishAuth);
+    const public_key = await getPublicKey();
+    const azureURL = await getAzureURL();
 
-    async function handleFinishAuth(player) {
-        const player_identifier = player.discordToken;
-        if (!player_identifier) {
-            return;
-        }
-
-        const public_key = await getPublicKey();
-        const azureURL = await getAzureURL();
-
-        const options = {
-            method: 'POST',
-            url: `${azureURL}/v1/post/discord`,
-            headers: { 'Content-Type': 'application/json' },
+    const options = {
+        method: 'POST',
+        url: `${azureURL}/v1/post/discord`,
+        headers: { 'Content-Type': 'application/json' },
+        data: {
             data: {
-                data: {
-                    player_identifier,
-                    public_key
-                }
+                player_identifier,
+                public_key
             }
-        };
-
-        const result = await axios.request(options).catch((err) => {
-            console.log(err);
-            return null;
-        });
-
-        if (!result) {
-            return;
         }
+    };
 
-        const data = await decryptData(JSON.stringify(result.data));
-        if (!data) {
-            return;
-        }
+    const result = await axios.request(options).catch((err) => {
+        alt.emitClient('Discord:Fail', 'Could not communicate with Authorization service.');
+        return null;
+    });
 
-        alt.emit('Discord:Login', player, JSON.parse(data));
-        alt.emitClient(player, `Discord:Close`);
+    if (!result) {
+        return;
     }
+
+    const data = await decryptData(JSON.stringify(result.data)).catch((err) => {
+        alt.emitClient('Discord:Fail', 'Could not decrypt data from Authorization service.');
+        return null;
+    });
+
+    if (!data) {
+        return;
+    }
+
+    alt.emitClient(player, `Discord:Close`);
+    alt.emit('Discord:Login', player, JSON.parse(data));
 }

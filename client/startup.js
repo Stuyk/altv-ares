@@ -4,13 +4,12 @@ import * as alt from 'alt-client';
 const url = `https://stuyk.github.io/altv-ares-view/`;
 let view;
 let discordURI;
-let isPortless = false;
 
 alt.onServer(`Discord:Open`, handleView);
 alt.onServer(`Discord:Close`, handleClose);
+alt.onServer('Discord:Fail', handleFail);
 
-async function handleView(oAuthUrl, isRunningPortless = false) {
-    isPortless = isRunningPortless;
+async function handleView(oAuthUrl) {
     discordURI = oAuthUrl;
 
     if (!view) {
@@ -23,8 +22,20 @@ async function handleView(oAuthUrl, isRunningPortless = false) {
     alt.showCursor(true);
 }
 
+function handleFail(message) {
+    if (!view) {
+        return;
+    }
+
+    view.emit('discord:Fail', message);
+}
+
 function handleOpenURL() {
-    view.emit('discord:OpenURL', discordURI, isPortless);
+    if (!view) {
+        return;
+    }
+
+    view.emit('discord:OpenURL', discordURI, true);
 }
 
 function handleFinishAuth() {

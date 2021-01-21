@@ -1,6 +1,6 @@
 ![](https://thumbs.gfycat.com/OrangePoliticalChicken-size_restricted.gif)
 
-# alt:V Ares - 1.0.2
+# alt:V Ares - 2.0.0
 
 [❤️ Become a Sponsor of my Open Source Work](https://github.com/sponsors/Stuyk/)
 
@@ -48,48 +48,6 @@ Add this resource to your `server.cfg`.
 npm install elliptic sjcl express body-parser cors axios public-ip dotenv
 ```
 
-# Additional Configuration Necessary
-
-Pick one of the following options bellow.
-
-## Not Opening Additional Ports
-
-Create a `.env` file and add the following inside:
-
-```
-PORTLESS=true
-```
-
-## Opening Port 7790
-
-Depending on whatever system you are on you should open port 7790.
-
-You will need to do this in your windows Firewall as well.
-
-Here's a Windows 10 `.bat` file for opening ports.
-
-```bat
-ECHO OFF
-
-echo Opening 7788 for TCP
-netsh advfirewall firewall add rule name="alt:V-7788-IN-TCP" dir=in action=allow protocol=TCP localport=7788
-netsh advfirewall firewall add rule name="alt:V-7788-OUT-TCP" dir=out action=allow protocol=TCP localport=7788
-
-echo Opening 7788 for UDP
-netsh advfirewall firewall add rule name="alt:V-7788-IN-UDP" dir=in action=allow protocol=UDP localport=7788
-netsh advfirewall firewall add rule name="alt:V-7788-OUT-UDP" dir=out action=allow protocol=UDP localport=7788
-
-echo Opening 7790 for TCP
-netsh advfirewall firewall add rule name="alt:V-7790-IN-TCP" dir=in action=allow protocol=TCP localport=7790
-netsh advfirewall firewall add rule name="alt:V-7790-OUT-TCP" dir=out action=allow protocol=TCP localport=7790
-
-echo Opening 7790 for UDP
-netsh advfirewall firewall add rule name="alt:V-7790-IN-UDP" dir=in action=allow protocol=UDP localport=7790
-netsh advfirewall firewall add rule name="alt:V-7790-OUT-UDP" dir=out action=allow protocol=UDP localport=7790
-
-pause
-```
-
 # Setting Up Your Resource for Usage
 
 When the player connect to your server a event will automatically be emitted to open the WebView.
@@ -122,6 +80,8 @@ The **Discord:Login** event is your **success** event.
 
 ```diff
 January 20, 2020
++ Portless is supported and enforced now.
++ Completely removed express server.
 + Skip IP Lookup for Portless (Fastest)
 
 January 12, 2020
