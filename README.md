@@ -1,6 +1,6 @@
 ![](https://thumbs.gfycat.com/OrangePoliticalChicken-size_restricted.gif)
 
-# alt:V Ares - 1.0.1
+# alt:V Ares - 1.0.2
 
 [❤️ Become a Sponsor of my Open Source Work](https://github.com/sponsors/Stuyk/)
 
@@ -121,6 +121,9 @@ The **Discord:Login** event is your **success** event.
 # Changelog
 
 ```diff
+January 20, 2020
++ Skip IP Lookup for Portless (Fastest)
+
 January 12, 2020
 + Added New Portless Discord Authentication
 + Added New Portless Parameters

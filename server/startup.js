@@ -40,10 +40,9 @@ async function handlePlayerConnect(player) {
     player.discordToken = sha256Random(uniquePlayerData);
 
     // Used as the main data format for talking to the Azure Web App.
-    const server_ip = await fetchPublicIP();
     const encryptionFormatObject = {
         player_identifier: player.discordToken,
-        server_ip, // Make a Fetch Request to get own IP.
+        server_ip: process.env['PORTLESS'] ? null : await fetchPublicIP(), // Make a Fetch Request to get own IP.
         server_port: 7790,
         no_ports: process.env.PORTLESS ? true : false
     };
