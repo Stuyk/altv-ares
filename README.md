@@ -45,7 +45,7 @@ Add this resource to your `server.cfg`.
 ## Install these Dependencies
 
 ```sh
-npm install elliptic sjcl express body-parser cors axios public-ip dotenv
+npm install elliptic sjcl axios dotenv
 ```
 
 # Setting Up Your Resource for Usage
