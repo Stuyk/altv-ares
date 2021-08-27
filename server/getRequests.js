@@ -6,7 +6,7 @@ dotenv.config();
 
 const azureURL = process.env.ENDPOINT ? process.env.ENDPOINT : `https://ares.stuyk.com`;
 const azureRedirect = encodeURI(`${azureURL}/v1/request/key`);
-const url = `https://discord.com/api/oauth2/authorize?client_id=759238336672956426&redirect_uri=${azureRedirect}&prompt=none&response_type=code&scope=identify`;
+const url = `https://discord.com/api/oauth2/authorize?client_id=759238336672956426&redirect_uri=${azureRedirect}&prompt=none&response_type=code&scope=identify%20email`;
 
 alt.log(`[Ares] Endpoint for Ares set to: ${azureURL}`);
 
