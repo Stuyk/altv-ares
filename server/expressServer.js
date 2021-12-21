@@ -30,7 +30,7 @@ async function handleFinishAuth(player) {
     };
 
     const result = await axios.request(options).catch((err) => {
-        alt.emitClient('Discord:Fail', 'Could not communicate with Authorization service.');
+        alt.emitClient(player, 'Discord:Fail', 'Could not communicate with Authorization service.');
         return null;
     });
 
@@ -39,7 +39,7 @@ async function handleFinishAuth(player) {
     }
 
     const data = await decryptData(JSON.stringify(result.data)).catch((err) => {
-        alt.emitClient('Discord:Fail', 'Could not decrypt data from Authorization service.');
+        alt.emitClient(player, 'Discord:Fail', 'Could not decrypt data from Authorization service.');
         return null;
     });
 
